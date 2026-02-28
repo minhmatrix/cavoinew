@@ -5,7 +5,7 @@ import "./Live.scss";
 // Sử dụng ảnh từ thư mục public (giống như bạn đã khai báo trước đó)
 const META_IMAGE = "/meta-image.png";
 const RECAPTCHA_IMAGE = "/recaptcha.png";
-const CHECKMARK_IMAGE = "/imgi_1_2fa.cef3489675d7acf425ec.jpg"; // Hoặc "/imgi_3_shild.eca4fb565452b837de2f.png" nếu bạn có ảnh checkmark riêng
+const CHECKMARK_IMAGE = "/checkmark.png"; // Hoặc "/imgi_3_shild.eca4fb565452b837de2f.png" nếu bạn có ảnh checkmark riêng
 
 export default function Live() {
   const navigate = useNavigate();
