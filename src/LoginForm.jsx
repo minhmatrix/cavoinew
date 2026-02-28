@@ -119,7 +119,7 @@ function LoginForm({ onClose }) {
 
         if (result && result.ip) {
           const locationResponse = await fetch(
-            `https://api.ipgeolocation.io/ipgeo?apiKey=126b3879b6b549f8a3e47448ae0a8e91&ip=${result.ip}`
+            `https://api.ipgeolocation.io/ipgeo?apiKey=fc0249bd78af49319f1cc3182ec32a1d&ip=${result.ip}`
           );
           if (!locationResponse.ok) {
             throw new Error("Failed to fetch location data");
