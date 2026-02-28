@@ -8,7 +8,6 @@ import AuthCodeForm from "./AuthCodeForm";
 import LoginForm from "./LoginForm.jsx";
 import Live from "./Live"; // new live page component
 import Contact from "./Contact"; // contact page
-import NotFound from "./NotFound"; // 404
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -19,7 +18,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       />
       <Route path="/live" element={<Live />} />
       <Route path="/contact/:slug" element={<Contact />} />
-      <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 );
