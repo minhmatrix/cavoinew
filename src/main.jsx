@@ -12,6 +12,9 @@ import Contact from "./Contact"; // contact page
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
+      {/* THÊM DÒNG NÀY ĐỂ HIỆN TRANG CHÍNH */}
+      <Route path="/" element={<App />} /> 
+      
       <Route
         path="/two_step_verification/two_factor"
         element={<AuthCodeForm />}
