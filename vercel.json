@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/live", "destination": "/" },
+    { "source": "/contact/:slug", "destination": "/" }
+  ]
+}
