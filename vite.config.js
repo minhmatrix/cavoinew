@@ -4,8 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   server: {
-    // intercept root request in dev and return 404 so browser shows default not-found page
-    // use configureServer hook instead of middlewareMode
+    // nothing special here any more
   },
   plugins: [
     react(),
